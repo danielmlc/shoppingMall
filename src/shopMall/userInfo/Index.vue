@@ -2,7 +2,7 @@
 <template>
 <div class="user-info">
         <yl-header 
-            :title="titleName" 
+            title="个人中心" 
             theme="dark"
             ></yl-header>  
         <div class="user-card">
@@ -39,7 +39,6 @@ export default {
     mixins: [baseMixn],
     data(){
         return {
-            titleName:this.$route.name,
             userInfo:this.getUserInfo(),
             listConf:[
                 {
@@ -52,7 +51,7 @@ export default {
                         algin:'left',
                         color:'',
                         show:true,
-                        text:'关于我们'
+                        text:'我的订单'
                     },
                     content:{
                         algin:'left',
@@ -75,7 +74,7 @@ export default {
                         algin:'left',
                         color:'',
                         show:true,
-                        text:'反馈意见'
+                        text:'优惠卷'
                     },
                     content:{
                         algin:'left',
@@ -98,7 +97,7 @@ export default {
                         algin:'left',
                         color:'',
                         show:true,
-                        text:'切换角色'
+                        text:'收货地址'
                     },
                     content:{
                         algin:'left',
@@ -122,6 +121,29 @@ export default {
                         color:'',
                         show:true,
                         text:'设  置'
+                    },
+                    content:{
+                        algin:'left',
+                        html:'',
+                        show:true,
+                    },
+                    isLink:true,
+                    url:'/blank',
+                    styleConf:{
+                        padding:'alone'
+                    }
+                },
+                 {
+                    icon:{
+                        value:"fa fa-cog",
+                        show:true,
+                        color:'#2973a2'
+                    },
+                    title:{
+                        algin:'left',
+                        color:'',
+                        show:true,
+                        text:'关于我们'
                     },
                     content:{
                         algin:'left',
@@ -181,7 +203,6 @@ export default {
     height calc(100% - 48px)
     .user-card
         height 130px
-        background-image url(../../common/img/jy.png)
         background-color $color-blue
         background-size 100% 100%
         display flex
@@ -208,7 +229,8 @@ export default {
                     text-overflow ellipsis
                     border 1px $color-background solid
                     padding 2px 
-
+    .user-content
+        overflow auto
                 
 
     
