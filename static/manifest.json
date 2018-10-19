@@ -1,0 +1,30 @@
+{
+    "start_url": "/?utm_source=homescreen",
+    "name": "掌上易龙V3.0",
+    "short_name": "掌上易龙",
+    "icons": [
+        {
+            "src": "img/icons/Icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "img/icons/Icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "img/icons/Icon-180.png",
+            "type": "image/png",
+            "sizes": "180x180"
+        },
+        {
+            "src": "img/icons/Icon-152.png",
+            "type": "image/png",
+            "sizes": "152x152"
+        }
+    ],
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#2b5e93"
+}

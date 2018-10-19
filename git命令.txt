@@ -1,0 +1,66 @@
+
+--git一些常用命令
+使用场景一：下载某个地址上的仓库
+1.git init 
+2. git clone url
+
+
+
+使用场景二  如果项目修改了 上传到远程仓库
+1. git add .
+2. git commit -m "测试提交"
+3. git remote add origin url  指定远程仓库(如果之前指定过地址了跳过本次)
+4. git push -u origin master  提交至远程仓库
+
+
+
+使用场景三：如果项目上的代码有其他人更新过 自己的代码也修改了，代码要更新到本地的话使用下面方法
+
+1.   git remote -v查看远程代码版本
+      origin  git@github.com:username/Animations.git (fetch)
+      origin  git@github.com:username/Animations.git (push)
+
+
+2. git fetch origin master:temp 想远程仓库代码下载到缓存分支
+3. git diff temp  比较两个版本
+4. git merge temp 合并tem分支到master分支
+--allow-unrelated-histories  强制合并
+  合并冲突时{   1.按键盘字母 i 进入insert模式
+		2.修改最上面那行黄色合并信息,可以不修改
+		3.按键盘左上角"Esc"
+		4.输入":wq",注意是冒号+wq,按回车键即可
+
+	     }
+5. git branch -d temp 删除temp分支
+
+使用场景四：
+提交本地代码时，服务器端代码修改的情形
+ 如果服务端有冲突 先把服务端下载到本地分支 合并 之后再上传。
+
+
+使用场景五
+创建一个新的仓库
+
+git init 初始化仓库
+git add . 添加到暂存区
+git commit -m "first commit"  提交到仓库
+git remote add origin git@github.com:danielmlc/CMS1.0.git  指定远程仓库
+git push -u origin master  提交至远程仓库
+
+
+创建主页
+  
+  --查看分支 git branch
+  --创建gh-pages分支   git branch gh-pages
+  --上传dist
+      
+	   # 强制添加dist文件夹，因为.gitignore文件中定义了忽略该文件
+		git add -f dist
+
+		# 提交到本地暂存区
+		git commit -m 'sss'
+
+		# 部署dist目录下的代码
+		git subtree push --prefix dist origin gh-pages
+      
+
