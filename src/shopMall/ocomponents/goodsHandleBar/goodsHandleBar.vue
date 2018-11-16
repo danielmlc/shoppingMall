@@ -19,13 +19,13 @@ export default {
 
        },
        _showCartList(){
-           
+           this.$router.push({path:'/cart'})
        },
        _buyNow(){
-           
+           this.$parent.refList.goodsSelect.goodsSelect.showPopup('selectPopup',true)
        },
        _pushCart(){
-           
+            this.$parent.refList.goodsSelect.goodsSelect.showPopup('selectPopup',true)
        }
     }
 }

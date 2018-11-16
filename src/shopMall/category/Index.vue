@@ -1,6 +1,6 @@
 
 <template>
-<div class="yl-menu">
+<div class="yl-category">
     <!-- <div class="search">
         <cube-input class="input" v-model="searchVal" placeholder="搜索商品关键字"></cube-input>
     </div> -->
@@ -25,13 +25,6 @@
             </div>
         </div>
         <div class="list">
-            <!-- <div class="pic">
-                <img class="img" src="/static/img/eg/1.png" alt=""/>
-            </div> -->
-            <!-- <yl-splitline class="line"
-                style="width:150px;"
-                :text="currentNode.name"
-            ></yl-splitline> -->
             <div class="content">
                 <yl-listscroll 
                     scrollEnable
@@ -39,8 +32,6 @@
                     :scrollOptions="scrollOptions"
                     :infoShowOptions="infoShowOptions"
                     :data="dataList"
-                    @onPullingDown="_onPullingDown"
-                    @onPullingUp="_onPullingUp"
                 >
                 </yl-listscroll>
             </div>
@@ -64,44 +55,29 @@ export default {
             scrollOptions:{
                 options: {
                     click: true,
-                    pageSize:5,
-                    // pullDownRefresh: {
-                    //   threshold: 60,
-                    //   stop: 30,
-                    //   txt: "当前页已刷新"
-                    // },
-                    pullUpLoad: {
-                      threshold: 60,
-                      txt: {
-                        more: "加载更多",
-                        noMore: "没有数据了"
-                      }
-                    }
                   }
             },
             infoShowOptions:{
                  type:"goodsCard",
                  elmentConfig:{
                      item:{},
-                     width:'50%',
+                     width:'33.3333%',
                      defaultProps:{
                          name:{
-                             name:'v_Col14',
+                             name:'name',
+                             style:{
+                                 textAlign:"center"
+                             }
                          },
-                         price:{
-                             name:'sD_Col1',
-                         }, 
                          img:{
-                             name:'sV_Col8',
+                             name:'extensionTwo',
                          }
                      },
                      style:{
                      },
                      linkEvent:function(_this,item){
-                         localStorage.setItem('currentGoods',JSON.stringify(item))
-                         this.goUrl('/dynamicPage/category/goodsDetails')
+                         this.goUrl('/goodsList?classCode='+item.treeCode)
                      }
-                    
                  }
             },
             listStyle:{
@@ -144,6 +120,7 @@ export default {
                                     this.currentNode=this.menuList[0].children[0];
                                     this._getGoodListByClass(this.currentNode)
                                 }
+                               
                             } 
 							toast.hide();
 						}).catch(function (error) {
@@ -152,34 +129,12 @@ export default {
           },
           _getGoodListByClass(node){
               this.currentNode=node;
-              const toast = this.$createToast({
-                time: 0,
-                txt: '加载中..'
-                })
-              toast.show()
-              let params={
-                    firstKeys: "V_Col2",
-                    firstValues: "#"+node.treeCode+"#",
-                    procName: "Pr_CommonExecuteSql",
-                    procType: 0,
-                    secondKeys: "getGoodListByClass",
-                    secondOperates: "",
-                    secondValues: "",
-              };
-			  var _this=this;
-              this.commonSqlExcute(params).then(
-					data => {
-						    this.dataList=data.items[0];
-							toast.hide();
-						}).catch(function (error) {
-							toast.hide();
-						});
+              if(node.children){
+                  this.dataList=node.children;
+              }else{
+                  this.dataList=[];
+              }
           },
-          _onPullingDown(node,_this,option){
-          },
-          _onPullingUp(node,_this,option){
-
-          }
     },
     mounted(){
       this._getClass();
@@ -189,17 +144,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-.yl-menu
+.yl-category
     background-color $color-white
     height calc(100% - 48px)
     display flex
     flex-direction column
-    // .search
-    //     height 32px
-    //     padding 3px 10px
-    //     border-bottom 1px $color-col-line solid
-    //     .input
-    //         background-color $color-background
     .side-list
         flex 1
         display flex

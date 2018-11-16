@@ -84,6 +84,7 @@
         :isAdvancePaging="option.elmentConfig.isAdvancePaging"
         :pageSize="option.elmentConfig.pageSize"
         :data="option.elmentConfig.data"
+        :listStyle="option.elmentConfig.listStyle"
         :style="option.elmentConfig.style"
         @onPullingDown="_method1"
         @onPullingUp="_method2"
@@ -125,6 +126,13 @@
         :style="option.elmentConfig.style"
     ></yl-linkblock>
 
+    <!-- 分割线 -->
+    <yl-splitline  ref="splitline"
+        v-else-if="option.type==='splitline'" 
+        :text="option.elmentConfig.text"
+        :style="option.elmentConfig.style"
+    ></yl-splitline>
+
     <!-- 物资选择项 -->
     <yl-goodsSelect  ref="goodsSelect"
         v-else-if="option.type==='goodsSelect'" 
@@ -132,7 +140,7 @@
         :style="option.elmentConfig.style"
     ></yl-goodsSelect>
 
-     <!-- 商品处理工具栏 -->
+    <!-- 商品处理工具栏 -->
     <yl-goodsHandleBar  ref="goodsHandleBar"
         v-else-if="option.type==='goodsHandleBar'" 
         :style="option.elmentConfig.style"

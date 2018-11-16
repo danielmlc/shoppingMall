@@ -4,6 +4,7 @@
         <yl-header 
             title="个人中心" 
             theme="dark"
+           
             ></yl-header>  
         <div class="user-card">
             <div class="portrait">
@@ -11,13 +12,12 @@
                  <img src="@/common/img/girl.png" alt="" v-else>
             </div> 
             <div class="info">
-                <p class="name">{{userInfo.user.realName}}</p>
-                <p class="role">{{userInfo.user.roleName}}</p>
-                <p class="org"><span>{{userInfo.user.manageOrgName}}</span></p>
+                    <p class="name" v-if="userInfo.user.realName">{{userInfo.user.realName}}</p>
+                    <p class="name" v-else @click="_goUrl('Login')">登录/注册></p>
                 </div>      
         </div>
 
-        <div class="user-content">
+        <div class="user-content"  >
             <yl-cell v-for="(i,index) in listConf" :key="index"
                 :icon=i.icon
                 :title=i.title
@@ -26,7 +26,8 @@
                 :styleConf=i.styleConf
                 @linkTo="_goUrl(i.url)"
             ></yl-cell>
-            <cube-button :primary="true" class="logout" @click="loginOut()">退出登录</cube-button>
+            <cube-button :primary="true" class="logout" @click="loginOut()" v-if="userInfo.user.realName">退出账号</cube-button>
+            <cube-button :primary="true" class="logout" @click="goUrl('Login')"  v-else>登录账号</cube-button>
            
         </div>
 
@@ -43,7 +44,7 @@ export default {
             listConf:[
                 {
                     icon:{
-                        value:"fa fa-user-circle",
+                        value:"fa fa-file-text-o",
                         show:true,
                         color:'#ffba42'
                     },
@@ -59,16 +60,16 @@ export default {
                         show:true,
                     },
                     isLink:true,
-                    url:'/blank',
+                    url:'/homePage',
                     styleConf:{
                         padding:'top'
                     }
                 },
                 {
                     icon:{
-                        value:"fa fa-envelope-o",
+                        value:"fa fa-gift",
                         show:true,
-                        color:'#a0b751'
+                        color:'#ffba42'
                     },
                     title:{
                         algin:'left',
@@ -82,16 +83,16 @@ export default {
                         show:true,
                     },
                     isLink:true,
-                    url:'/blank',
+                    url:'/homePage',
                     styleConf:{
                         padding:'top'
                     }
                 },
                  {
                     icon:{
-                        value:"fa fa-users",
+                        value:"fa fa-map-o",
                         show:true,
-                        color:'#ff7878'
+                        color:'#ffba42'
                     },
                     title:{
                         algin:'left',
@@ -105,9 +106,32 @@ export default {
                         show:true,
                     },
                     isLink:true,
-                    url:'/trunRole',
+                    url:'/homePage',
                     styleConf:{
                         padding:'top'
+                    }
+                },
+                 {
+                    icon:{
+                        value:"fa fa-users",
+                        show:true,
+                        color:'#ffba42'
+                    },
+                    title:{
+                        algin:'left',
+                        color:'',
+                        show:true,
+                        text:'关于我们'
+                    },
+                    content:{
+                        algin:'left',
+                        html:'',
+                        show:true,
+                    },
+                    isLink:true,
+                    url:'/homePage',
+                    styleConf:{
+                        padding:'alone'
                     }
                 },
                 {
@@ -128,30 +152,7 @@ export default {
                         show:true,
                     },
                     isLink:true,
-                    url:'/blank',
-                    styleConf:{
-                        padding:'alone'
-                    }
-                },
-                 {
-                    icon:{
-                        value:"fa fa-cog",
-                        show:true,
-                        color:'#2973a2'
-                    },
-                    title:{
-                        algin:'left',
-                        color:'',
-                        show:true,
-                        text:'关于我们'
-                    },
-                    content:{
-                        algin:'left',
-                        html:'',
-                        show:true,
-                    },
-                    isLink:true,
-                    url:'/blank',
+                    url:'/homePage',
                     styleConf:{
                         padding:'alone'
                     }
@@ -167,8 +168,19 @@ export default {
                 return  false
             }
         },
+
         _goUrl(url){
-            this.$router.push({path:url})
+            if(this.userInfo.user.realName){
+                this.$router.push({path:url})
+            }else{
+                const toast = this.$createToast({
+                                    time: 1000,
+                                    type:'warn',
+                                    txt: '请登录...'
+                                    })
+                toast.show()
+            }
+            
         },
         loginOut(){
                 this.$createDialog({
@@ -186,7 +198,7 @@ export default {
                         //清空 localstorage、cookie
                         
                         this.utilObject.resetLogin();
-                         this.$router.replace('/login');
+                        this.$router.replace('/login');
                     },
                     onCancel: () => {
                     }
@@ -201,18 +213,20 @@ export default {
 .user-info
     background-color $color-background
     height calc(100% - 48px)
+    display flex
+    flex-direction column
     .user-card
-        height 130px
+        height 90px
         background-color $color-blue
         background-size 100% 100%
         display flex
         .portrait
             width 120px
             img 
-                padding-left 20px
+                padding-left 50px
                 padding-top 15px
-                height 80px
-                width 80px
+                height 60px
+                width 60px
         .info
             flex 1
             padding-top 35px
@@ -220,16 +234,8 @@ export default {
             line-height 25px
             .name
                 font-size $fontsize-medium
-            .role
-                font-size $fontsize-small-s
-            .org
-                font-size $fontsize-small-ss
-                span
-                    overflow hidden
-                    text-overflow ellipsis
-                    border 1px $color-background solid
-                    padding 2px 
     .user-content
+        flex 1
         overflow auto
                 
 

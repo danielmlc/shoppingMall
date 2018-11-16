@@ -2,11 +2,23 @@
 <template>
 <div class='login'>
     <yl-header 
+        :left="leftObj"
         theme="light"
+         @leftEvent="_leftEvent"
         ></yl-header>   
     <div class="logo">
-        <img src="../../../static/img/logo.png" alt="" class="logo-img">
-        <p class="title">{{titleName}}</p>
+        <div class="logo-img">
+            <img src="../../../static/img/logo.png" alt="" />
+            <p class="title">{{titleName}}</p>
+        </div>
+    </div>
+    <div class="goodsDIs">
+            <transition name="fade">
+            <div class="item" v-for="(item,index) in dataList" v-if="index==isIndex" :key="index">
+                <img :src="item.src" alt="">
+                <!-- <p>{{item.text}}</p> -->
+            </div>
+             </transition>
     </div>
     <div class="yl-form">
         
@@ -36,8 +48,8 @@
     </div>
     <div class="bottom">
         <p>
-            <!-- <span class="zhuce" @click="goUrl('/Registered')">注册账号</span>
-            <span class="wangji" @click="goUrl('/RetrievePwd')">忘记密码？</span> -->
+            <span class="zhuce" @click="goUrl('/Registered')">注册账号</span>
+            <span class="wangji" @click="goUrl('/RetrievePwd')">忘记密码？</span>
         </p>
     </div>
 </div>  
@@ -57,10 +69,24 @@ export default {
             eye:{
                     'open':false,
                     "reverse":false
-                }
+                },
+            leftObj:{
+                 text:'',
+                 icon:'fa fa-angle-left'
+            },
+            isIndex:0,
+            dataList:[
+                {src:'../../../static/img/loginPic/2.jpg',text:'邻和 陕西农家红富士丑苹果带箱5kg',link:''},
+                {src:'../../../static/img/loginPic/3.jpg',text:'澳大利亚进口脐橙 澳橙12个装',link:''},
+                {src:'../../../static/img/loginPic/4.jpg',text:'浦之灵 欧式杂菜 速冻混合蔬菜丁',link:''},
+            ],
+            listenEvent:{},
         }
     },
     methods:{
+        _leftEvent(){
+            this.goUrl('homePage')
+        },
          _initlogin(){
 					 if(this.utilObject.getCookie('ylClientId')===''){
 						this.utilObject.setCookie('ylClientId',this.utilObject.newGuid(false),1);
@@ -124,7 +150,7 @@ export default {
                                     if(data.success){
                                         this.utilObject.setCookie('userInfo',JSON.stringify(data.result),1);
                                         this.Console('success','登录成功，欢迎您！');
-                                        this.$router.replace('/Home');
+                                        this.$router.replace('/HomePage');
                                     }
                         });
                     } else {
@@ -139,12 +165,28 @@ export default {
             })
         },
         validateHandler(result){
-        }
+        },
+        _turnImg(num){
+            this.listenEvent=setInterval(()=>{
+               if(this.isIndex>=this.dataList.length-1){
+                   this.isIndex=0;
+               }else{
+                   this.isIndex+=1;
+               }
+               console.log(this.isIndex);
+             },num);  
+
+          return this.listenEvent;
+        },
     },
     mounted(){
         this._initlogin()
-       
-    }
+        this._turnImg(3000);
+    },
+    beforeDestroy() {
+        window.clearInterval(this.listenEvent);
+        
+   },
 
 }
 </script>
@@ -152,17 +194,38 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 .logo
-    text-align center 
+    padding-top 10px
+    align-items center
     .logo-img
-        height 85px
-        wight 85px
-        padding-top 50px
-    .title
-        font-size $fontsize-medium
-        color $color-blue
-        font-weight 500
+        height 50px
+        width 200px
+        margin 0 auto
+        display flex
+        img 
+            width 55px
+            height 40px
+            display block
+        .title
+            flex 1
+            display block
+            padding-left 10px
+            font-size $fontsize-medium
+            color $color-blue
+            line-height 40px
+            font-weight 500
+.goodsDIs
+    margin 0px auto 
+    .item
+        padding 10px 110px
+        img 
+            width 100%
+        p
+            font-size $fontsize-small-s
+            color $color-grey
+            text-align center
+
 .yl-form
-    padding 45px 25px 0px 25px 
+    padding 15px 25px 0px 25px 
     font-size $fontsize-medium
     color $color-grey
     .item
@@ -184,6 +247,5 @@ export default {
     text-align center
     p>.wangji
         padding-left 15px
-
 
 </style>

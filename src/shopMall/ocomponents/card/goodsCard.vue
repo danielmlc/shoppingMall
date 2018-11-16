@@ -18,7 +18,7 @@ export default {
     mixins: [baseMixn],
     data(){
         return {
-                 baseUrl:webappConfig().sysConf.baseUrl+'/Upload/img'
+                 baseUrl:webappConfig().sysConf.baseUrl+'/Upload'
               }
     },
     props:{

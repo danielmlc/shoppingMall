@@ -43,7 +43,8 @@ const SLogin = resolve => require(['../shopMall/account/Login.vue'], resolve);
 const SRegistered = resolve => require(['../shopMall/account/Registered.vue'], resolve);
 const SRetrievePwd = resolve => require(['../shopMall/account/RetrievePwd.vue'], resolve);
 const SRegisteredConfim = resolve => require(['../shopMall/account/RegisteredConfim.vue'], resolve);
-
+const SPage404 = resolve => require(['../shopMall/config/Page404.vue'], resolve);
+const goodsList = resolve => require(['../shopMall/category/goodsList.vue'], resolve);
 Vue.use(Router)
 
 export default new Router({
@@ -93,7 +94,7 @@ export default new Router({
         { path: '/userInfo', component: userInfo, name: '我的'  },
       ]
     },
-
+    { path: '/goodsList', component: goodsList, name: '商品列表'  },
     //==================================
 
     //通用页面
@@ -101,7 +102,7 @@ export default new Router({
     { path: '/dynamicPage/:menuCode/:pageName', component: dynamicPage, name: '独立动态页面'  },
     //tip
     {path: '/blank',component: blank,name: '暂无内容'},
-    {path: '*',component: Page404,name: '404页面'} 
+    {path: '*',component: SPage404,name: '404页面'} 
 
    
   ]
